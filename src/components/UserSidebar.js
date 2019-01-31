@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col } from 'reactstrap'
 import User from './User'
+import '../App.css'
 
 class UserSidebar extends React.Component {
   constructor(props){
@@ -15,16 +16,24 @@ class UserSidebar extends React.Component {
     return(
       <Col md='3' className="p-0">
       <div style={ {height: '100vh'} }>
-        <nav className="d-none d-md-block bg-dark sidebar m-0 shadow" style={ {height: '100%', backgroundImage:'linear-gradient(#F2C94C, #F2994A)'} }>
+        <nav className="d-none d-md-block bg-dark sidebar m-0 shadow" style={ {height: '100%', backgroundImage:'linear-gradient(#F2C94C, #F2994A)', scrolling: 'no', overflowY:'scroll'} }>
           <div className="sidebar-sticky bg-dark">
-            <div className="sidebar-title bg-white" style={ { height: '40px' } }>
-              <h6 className="pt-1 mb-4">User Profile Pic and some dummy fa-icons</h6>
+            <div className="sidebar-title bg-white border border-muted" style={ { height: '70px' } }>
+              <h6 className="pt-4" style={{marginBottom: '35px'}}>NEXT Academy Chatroom</h6>
               <div>
-                <User userid={"Josh Teng"}/>
-                <User userid={"Steven Suzuki"}/>
-                <User userid={"Buttman"}/>
-                <User userid={"R3AC7I$C00L69"}/>
-                <User userid={"mattyc246"}/>
+                <User userid={"Josh"}/>
+                <User userid={"Steven"}/>
+                <User userid={"Nicholas"}/>
+                <User userid={"Liren"}/>
+                <User userid={"Matt"}/>
+                <User userid={"Edwind"}/>
+                <User userid={"Emika"}/>
+                <User userid={"Audrey"}/>
+                <User userid={"FakeUser396"}/>
+                <User userid={"FakeUser46"}/>
+                <User userid={"FakeUser134"}/>
+                <User userid={"FakeUser239"}/>
+                <User userid={"FakeUser67"}/>
               </div>
             </div>
           </div>

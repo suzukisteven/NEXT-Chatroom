@@ -7,14 +7,14 @@ class MainContainer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      username: 'xXxP1MPGuy69xXx',
+      username: 'Steven',
       textInput: '',
       messages: [
         {username: 'Edwind', message: 'What did the ocean say to another ocean?', timestamp: 1544532325758},
         {username: 'Liren', message: 'sea you later?', timestamp: 1544532341078},
         {username: 'Edwind', message: 'Nothing. It just waved', timestamp: 1544532347412},
         {username: 'Josh', message: "I'm leaving this chatroom", timestamp: 1544532402998},
-        {username: 'Matthew Cross', message: "Vape?", timestamp: 1544532402998},
+        {username: 'Matt', message: "Hello world", timestamp: 1544532402998},
       ],
       isEmpty: true,
       textInputCount: 0
@@ -56,13 +56,16 @@ class MainContainer extends React.Component {
     } else {
       alert('Message cannot be blank!')
     }
-
-
-    if(textInput === '')
-      e.preventDefault();
-    // this .setstate this.textinput back to ''
-    //
   }
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
 
   render() {
     const {messages} = this.state;
@@ -76,7 +79,10 @@ class MainContainer extends React.Component {
         <div className="bg-white border-left border-muted" style={ { height:'40px'} }>
           <div className="bg-muted" style={ { overflow: 'none', height: '100vh', background: '#EEE', overflowY:'scroll', paddingBottom: '75px'} }>
             {allMessages}
-            <div className="chat-input fixed-bottom border border-danger">
+            <div style={{ float:"left", clear: "both" }}
+             ref={(el) => { this.messagesEnd = el; }}>
+            </div>
+            <div className="chat-input fixed-bottom">
               <form onSubmit={this.sendMessage}>
                 <input
                   className="border border-muted rounded-pill pl-3"
