@@ -9,7 +9,13 @@ class MainContainer extends React.Component {
     this.state = {
       username: 'xXxP1MPGuy69xXx',
       textInput: '',
-      messages: [],
+      messages: [
+        {username: 'Edwind', message: 'What did the ocean say to another ocean?', timestamp: 1544532325758},
+        {username: 'Liren', message: 'sea you later?', timestamp: 1544532341078},
+        {username: 'Edwind', message: 'Nothing. It just waved', timestamp: 1544532347412},
+        {username: 'Josh', message: "I'm leaving this chatroom", timestamp: 1544532402998},
+        {username: 'Matthew Cross', message: "Vape?", timestamp: 1544532402998},
+      ],
       isEmpty: true,
       textInputCount: 0
     };
@@ -39,7 +45,7 @@ class MainContainer extends React.Component {
     let textInput = this.state.textInput
     let newMessages = this.state.messages
     if(!this.state.isEmpty) {
-      newMessages.push(textInput)
+      newMessages.push({username: this.state.username, message: textInput, timestamp: Date.now()})
       this.setState({
         messages: newMessages,
         textInput: '',
@@ -59,13 +65,19 @@ class MainContainer extends React.Component {
   }
 
   render() {
+    const {messages} = this.state;
+    let allMessages = messages.map(message => {
+      return(
+        <Chat newMessage={message} />
+      )
+    })
     return(
       <Col md='9' className="p-0" style={ {position:'relative'} }>
         <div className="bg-white border-left border-muted" style={ { height:'40px'} }>
-          <div className="bg-muted" style={ { overflow: 'none', height: '100vh', background: '#EEE'} }>
-            <Chat />
-            <div className="chat-input fixed-bottom">
-              <form>
+          <div className="bg-muted" style={ { overflow: 'none', height: '100vh', background: '#EEE', overflowY:'scroll', paddingBottom: '75px'} }>
+            {allMessages}
+            <div className="chat-input fixed-bottom border border-danger">
+              <form onSubmit={this.sendMessage}>
                 <input
                   className="border border-muted rounded-pill pl-3"
                   style={ {width: '68%', height:'50px', position: 'absolute', bottom: '7px', right: '6%'} }
@@ -74,14 +86,6 @@ class MainContainer extends React.Component {
                   placeholder="Type a message..."
                   maxlength="500"
                 />
-                {/* <input
-                  className="btn btn-sm btn-outline-primary"
-                  type="submit"
-                  value="Send"
-                  style={ {position: 'absolute', bottom: '17px', right: '1.75%'} }
-                  onClick ={this.sendMessage}
-                  messages={this.state.messages}
-                /> */}
                 <i className="text-muted fas fa-2x fa-microphone" style={ {position: 'absolute', bottom: '18px', right: '2.75%'} }></i>
               </form>
             </div>
@@ -93,3 +97,15 @@ class MainContainer extends React.Component {
 }
 
 export default MainContainer
+
+
+{/*
+  Below Max Length=500
+  <input
+  className="btn btn-sm btn-outline-primary"
+  type="submit"
+  value="Send"
+  style={ {position: 'absolute', bottom: '17px', right: '1.75%'} }
+  onClick ={this.sendMessage}
+  messages={this.state.messages}
+/> */}
