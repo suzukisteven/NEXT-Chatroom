@@ -1,4 +1,6 @@
 import React from 'react'
+import { Col } from 'reactstrap'
+import User from './User'
 
 class UserSidebar extends React.Component {
   constructor(props){
@@ -11,7 +13,23 @@ class UserSidebar extends React.Component {
 
   render(){
     return(
-      <h1>Hi from UserSidebar!</h1>
+      <Col md='3' className="p-0">
+      <div style={ {height: '100vh'} }>
+        <nav className="d-none d-md-block bg-dark sidebar m-0 shadow" style={ {height: '100%', backgroundImage:'linear-gradient(#F2C94C, #F2994A)'} }>
+          <div className="sidebar-sticky bg-dark">
+            <div className="sidebar-title bg-white" style={ { height: '40px' } }>
+              <h6 className="pt-1 mb-4">User Profile Pic and some dummy fa-icons</h6>
+              <div>
+                <User userid={"John Smith"}/>
+                <User userid={"Wacky Wacko"}/>
+                <User userid={"Buttman"}/>
+                <User userid={"Reactiscool69"}/>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+      </Col>
     )
   }
 }
