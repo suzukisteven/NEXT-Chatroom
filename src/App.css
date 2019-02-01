@@ -10,3 +10,11 @@
   width: 0px;  /* remove scrollbar space */
   background: transparent;  /* optional: just make scrollbar invisible */
 }
+
+.self-message-style {
+  background: #dcf8c6;
+}
+
+.self-background-style {
+  background: #dcf8c6;
+}

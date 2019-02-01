@@ -2,23 +2,40 @@ import React from 'react'
 import { Col } from 'reactstrap'
 import '../App.css';
 import Chat from '../components/Chat'
+import Socket from '../utils/socket'
 
 class MainContainer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      username: 'Steven',
+      username: 'Guest User',
       textInput: '',
       messages: [
         {username: 'Edwind', message: 'What did the ocean say to another ocean?', timestamp: 1544532325758},
         {username: 'Liren', message: 'sea you later?', timestamp: 1544532341078},
         {username: 'Edwind', message: 'Nothing. It just waved', timestamp: 1544532347412},
         {username: 'Josh', message: "I'm leaving this chatroom", timestamp: 1544532402998},
-        {username: 'Matt', message: "Hello world", timestamp: 1544532402998},
+        {username: 'Nicholas', message: "Sir", timestamp: 1544532402998},
       ],
       isEmpty: true,
-      textInputCount: 0
+      textInputCount: 0,
     };
+    Socket.emit('NEW_USER')
+
+    Socket.on('GET_CURRENT_USER', user => {
+      this.setState({
+        username: user.username
+      })
+    })
+
+    Socket.on('RECEIVE_BROADCAST', message => {
+      let newMessages = this.state.messages
+      newMessages.push(message)
+      this.setState({
+        messages: newMessages
+      })
+    })
+
   }
 
   handleTextInput = (e) => {
@@ -45,14 +62,19 @@ class MainContainer extends React.Component {
     let textInput = this.state.textInput
     let newMessages = this.state.messages
     if(!this.state.isEmpty) {
-      newMessages.push({username: this.state.username, message: textInput, timestamp: Date.now()})
+      let newMessage = {
+        username: this.state.username,
+        message: textInput,
+        timestamp: Date.now()
+      }
+      Socket.emit('BROADCAST_MESSAGE', newMessage)
+
       this.setState({
-        messages: newMessages,
         textInput: '',
         isEmpty: true
       })
-      console.log(newMessages)
-      console.log(this.state.textInput)
+
+
     } else {
       alert('Message cannot be blank!')
     }
@@ -66,12 +88,11 @@ class MainContainer extends React.Component {
     this.scrollToBottom();
   }
 
-
   render() {
-    const {messages} = this.state;
+    const { messages, username } = this.state;
     let allMessages = messages.map(message => {
       return(
-        <Chat newMessage={message} />
+        <Chat newMessage={message} username={username} />
       )
     })
     return(
@@ -103,7 +124,6 @@ class MainContainer extends React.Component {
 }
 
 export default MainContainer
-
 
 {/*
   Below Max Length=500
