@@ -73,8 +73,6 @@ class MainContainer extends React.Component {
         textInput: '',
         isEmpty: true
       })
-
-
     } else {
       alert('Message cannot be blank!')
     }

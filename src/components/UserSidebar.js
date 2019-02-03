@@ -26,6 +26,7 @@ class UserSidebar extends React.Component {
     Socket.on('RECEIVE_BROADCAST', message => {
       let newMessages = this.state.messages;
       newMessages.push(message)
+      newMessages.reverse()
       this.setState({
         messages: newMessages
       })
@@ -34,27 +35,19 @@ class UserSidebar extends React.Component {
 
   render(){
     const {users, currentUser, messages} = this.state;
-    let lastMessage = null
     let allUsers = users.map(user => {
-      if(messages){
-        let newMessages = messages.reverse()
-        let index = newMessages.forEach((x, index) => {
-          console.log(`F: ${x.username}, U: ${user.username}`)
-          if (x.username === user.username){
-            return index
-          } else {
-            return -1
-          }
-          lastMessage = newMessages[index].message
-        })
-        console.log(newMessages[index])
-      }
-      let propsMessage = messages.length > 0
-      ? lastMessage
-      : null
-      console.log(this.state.users)
+      let lastMessageIndex = messages.findIndex(m => {
+        if(m.username === user.username){
+          return m
+        } else {
+          return null
+        }
+      })
+      let lastMessage = lastMessageIndex != -1
+        ? messages[lastMessageIndex]
+        : {username: currentUser.username, message: ' ', timestamp: Date.now()}
       return(
-        <User userid={user.username} currentUser={currentUser} lastMessage={propsMessage} />
+        <User userid={user.username} currentUser={currentUser} lastMessage={lastMessage.message} />
       )
     })
     let displayUsers = currentUser && users
@@ -67,7 +60,7 @@ class UserSidebar extends React.Component {
         <nav className="d-none d-md-block bg-dark sidebar m-0 shadow" style={ {height: '100%', backgroundImage:'linear-gradient(#F2C94C, #F2994A)', scrolling: 'no', overflowY:'scroll'} }>
           <div className="sidebar-sticky bg-dark">
             <div className="sidebar-title border border-muted" style={ { height: '70px', background:'#F9F7F3' } }>
-              <h4 className="pt-3" style={ {marginBottom: '35px'} }>NEXT Academy Chat</h4>
+              <h4 className="pt-3" style={ {marginBottom: '35px'} }>WhatsChat</h4>
               <div>
                 {displayUsers}
                 <User userid={"Josh"} currentUser={currentUser}/>
